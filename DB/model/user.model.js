@@ -27,7 +27,8 @@ const UserSchema=new Schema({
         type:String
     },
     image:{
-        type:Object
+        type:Object,
+        require:true,
     }
     ,
     gender:{

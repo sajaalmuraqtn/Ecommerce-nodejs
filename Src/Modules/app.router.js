@@ -1,4 +1,5 @@
 
+import AuthRouter from './Auth/auth.router.js'
 import ProductRouter from './Product/product.router.js'
 import CatagoriesRouter from './Catagories/catagories.router.js'
 import ConnectDB from '../../DB/connection.js';
@@ -11,6 +12,7 @@ app.get('/',(req,res)=>{
     return res.json('welcome...')
 });
 ConnectDB();
+app.use('/auth',AuthRouter);
 app.use('/products',ProductRouter);
 app.use('/catagories',CatagoriesRouter);
 app.get('*',(req,res)=>{
