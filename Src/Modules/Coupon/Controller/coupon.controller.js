@@ -10,7 +10,7 @@ export const CreateCoupon=async(req,res)=>{
     return res.status(201).json({message:'success',coupon});
 }
 export const GetAllCoupons=async(req,res)=>{
-    const coupons=await CouponModel.find();
+    const coupons=await CouponModel.find({isDeleted:false});
     return res.status(200).json({message:'success',coupons});
 }
 
@@ -41,3 +41,44 @@ export const UpdateCoupon=async(req,res)=>{
     }
    
 }
+
+export const SoftDelete=async(req,res)=>{
+  const id=req.params.id;
+  if (! await CouponModel.findById(id)) {
+    return res.status(404).json({message:'coupon not found'});
+  } 
+
+  const coupon =await CouponModel.findOneAndUpdate({_id:id,isDeleted:false},{isDeleted:true},{new:true});
+  if (!coupon) {
+    return res.status(400).json({message:'can not delete this coupon '});
+  }
+  return res.status(200).json({message:'success',coupon});
+ 
+}
+
+export const HardDelete=async(req,res)=>{
+  const id=req.params.id;
+  if (! await CouponModel.findById(id)) {
+    return res.status(404).json({message:'coupon not found'});
+  } 
+  const coupon =await CouponModel.findOneAndDelete({_id:id,isDeleted:true},{new:true});
+  if (!coupon) {
+    return res.status(400).json({message:'can not delete this coupon '});
+  }
+  return res.status(200).json({message:'success',coupon});
+}
+
+
+export const Restore=async(req,res)=>{
+    const id=req.params.id;
+    if (! await CouponModel.findById(id)) {
+      return res.status(404).json({message:'coupon not found'});
+    } 
+  
+    const coupon =await CouponModel.findOneAndUpdate({_id:id,isDeleted:true},{isDeleted:false},{new:true});
+    if (!coupon) {
+      return res.status(400).json({message:'can not restore this coupon '});
+    }
+    return res.status(200).json({message:'success',coupon});
+   
+  }

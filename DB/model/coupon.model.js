@@ -14,6 +14,11 @@ const CouponSchema=new Schema({
             type:Types.ObjectId,ref:'User'
         }
     ],
+    isDeleted:{
+        type:Boolean,
+        default:false
+    }
+    ,
     expiredDate:Date,
     createdBy:{
         type:Types.ObjectId,ref:'User'
