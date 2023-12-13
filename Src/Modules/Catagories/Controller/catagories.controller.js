@@ -34,7 +34,7 @@ export const createCategory=async(req,res)=>{
             folder:`${process.env.APP_NAME}/categories`
     })
     
-    const category =await CategoryModel.create({name:name,slug:slugify(name),image:{secure_url,public_id}})
+    const category =await CategoryModel.create({name:name,slug:slugify(name),image:{secure_url,public_id},createdBy:req.user._id, updatedBy:req.user._id})
     return res.status(201).json({message:'success',category});
     } catch (error) {
         return res.json({error:error.stack});
@@ -68,6 +68,7 @@ export const updateCategory=async(req,res)=>{
         if (req.body.status) {
             category.status=req.body.status
         }
+        category.updatedBy=req.user._id;
       await category.save()
 
     return res.status(201).json({message:'success',category});

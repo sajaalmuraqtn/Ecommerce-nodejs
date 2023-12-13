@@ -19,10 +19,10 @@ const CategorySchema=new Schema({
         default:'Active'
     },
     createdBy:{
-        type:Types.ObjectId,ref:'User'
+        type:Types.ObjectId,ref:'User',require:true
     },
     updatedBy:{
-        type:Types.ObjectId,ref:'User'
+        type:Types.ObjectId,ref:'User',require:true
     }
 
 },{
