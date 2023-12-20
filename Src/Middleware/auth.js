@@ -1,5 +1,10 @@
 import Jwt  from "jsonwebtoken";
 import UserModel from "../../DB/model/user.model.js";
+
+export const roles={
+    Admin:'Admin',
+    User:'User'
+}
 export const auth=(accessRoles=[])=>{
 return async(req,res,next)=>{
     try {
