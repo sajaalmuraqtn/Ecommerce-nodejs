@@ -4,13 +4,19 @@ import SubCategoryModel from "../../../../DB/model/subcategory.model.js";
 import cloudinary from "../../../Services/cloudinary.js";
 import ProductModel from "../../../../DB/model/product.model.js";
 
-export const getProduct=(req,res)=>{
-    return res.json('product ......')
+export const getProduct=async(req,res)=>{
+    const products=await ProductModel.find();
+    return res.status(201).json({message:'success',products});
 }
 
 export const createProduct=async(req,res)=>{
     try {
-    const {name,price,discount,categoryId,subCategoryId}=req.body;
+    const {price,discount,categoryId,subCategoryId}=req.body;
+    const name =req.body.name.toLowerCase(); 
+    if (await ProductModel.findOne({name}).select('name')) {
+        return res.status(409).json({message:'product name already exist'});
+    }
+     req.body.slug=slugify(name); 
     const checkCategory=await CategoryModel.findById(categoryId);
     if(!checkCategory){
         return res.status(404).json({message:'category not found'});
@@ -19,7 +25,7 @@ export const createProduct=async(req,res)=>{
     if(!checkSubCategory){
         return res.status(404).json({message:'sub category not found'});
     }
-     req.body.slug=slugify(name); 
+   
      req.body.finalPrice=price - (price*(discount||0)/100);
      const{secure_url,public_id}=await cloudinary.uploader.upload(req.files.mainImage[0].path,{folder:`${process.env.APP_NAME}/product/mainImage`});
     req.body.mainImage={secure_url,public_id};

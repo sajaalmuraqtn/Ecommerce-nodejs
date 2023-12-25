@@ -25,9 +25,9 @@ return async(req,res,next)=>{
     if(!user){
         return res.status(404).json({message:'not registered user'});
     }
-    if (user.role=='User') {
-        return res.status(403).json({message:'not auth user'});
-    }
+    // if (user.role=='User') {
+    //     return res.status(403).json({message:'not auth user'});
+    // }
     if (! accessRoles.includes(user.role)) {
         return res.status(403).json({message:'not auth user'});
     }
