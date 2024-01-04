@@ -3,18 +3,18 @@ import slugify from "slugify";
 import CategoryModel from "../../../../DB/model/category.model.js";
 import cloudinary from "../../../Services/cloudinary.js";
 
-export const getCatagories=async(req,res)=>{
+export const getCatagories=async(req,res,next)=>{
     const categories=await CategoryModel.find().populate('subCategories');
     return res.status(201).json({message:'success',categories})
 }
 
-export const getSpecificCategory=async(req,res)=>{
+export const getSpecificCategory=async(req,res,next)=>{
     const {id}=req.params; 
     const category=await CategoryModel.findOne({_id:id});
     return res.status(200).json({message:'success',category})
 }
 
-export const getActiveCategory=async(req,res)=>{
+export const getActiveCategory=async(req,res,next)=>{
 try {
  const activeCatagories=await CategoryModel.find({status:'Active'}); 
     return res.status(200).json({message:'success',activeCatagories});
@@ -23,11 +23,11 @@ try {
 }  
 }
 
-export const createCategory=async(req,res)=>{
+export const createCategory=async(req,res,next)=>{
     try {
         const name =req.body.name.toLowerCase(); 
         if (await CategoryModel.findOne({name}).select('name')){
-            return res.status(409).json({message:'category name already exist'});
+        return next(new Error("category name already exist",{cause:409}));   
         }
         
         const {secure_url,public_id} = await cloudinary.uploader.upload(req.file.path,{
@@ -41,18 +41,18 @@ export const createCategory=async(req,res)=>{
     }
 }
 
-export const updateCategory=async(req,res)=>{
+export const updateCategory=async(req,res,next)=>{
     try {
         const {id} =req.params; 
         const category=await CategoryModel.findById(id);
         if (!category) {
-            return res.json({message:` invalid id ${id} `})
+            return next(new Error(` invalid id ${id} `,{cause:400}));   
         }
      
         if (req.body.name) {
             const name =req.body.name.toLowerCase(); 
             if (await CategoryModel.findOne({name}).select('name')){
-                return res.status(409).json({message:`category name '${name}' already exist`});
+              return next(new Error(`category name '${name}' already exist`,{cause:409}));    
             }    
             category.name=name;
             category.slug=slugify(name);

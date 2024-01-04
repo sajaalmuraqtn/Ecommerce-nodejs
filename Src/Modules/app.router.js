@@ -1,3 +1,4 @@
+import { globalErrorHandler } from '../Services/errorHandling.js'
 
 import AuthRouter from './Auth/auth.router.js'
 import ProductRouter from './Product/product.router.js'
@@ -25,5 +26,8 @@ app.use('/cart',CartRouter);
 app.get('*',(req,res)=>{
     return res.json({message:'page not found'})
 });
+app.use(globalErrorHandler);
 }
+
+
 export default initApp

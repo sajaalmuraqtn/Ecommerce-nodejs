@@ -4,26 +4,26 @@ import SubCategoryModel from "../../../../DB/model/subcategory.model.js";
 import cloudinary from "../../../Services/cloudinary.js";
 import ProductModel from "../../../../DB/model/product.model.js";
 
-export const getProduct=async(req,res)=>{
+export const getProduct=async(req,res,next)=>{
     const products=await ProductModel.find();
     return res.status(201).json({message:'success',products});
 }
 
-export const createProduct=async(req,res)=>{
-    try {
+export const createProduct=async(req,res,next)=>{
+ 
     const {price,discount,categoryId,subCategoryId}=req.body;
     const name =req.body.name.toLowerCase(); 
     if (await ProductModel.findOne({name}).select('name')) {
-        return res.status(409).json({message:'product name already exist'});
+        return next(new Error("product name already exist",{cause:409}));    
     }
      req.body.slug=slugify(name); 
     const checkCategory=await CategoryModel.findById(categoryId);
     if(!checkCategory){
-        return res.status(404).json({message:'category not found'});
+        return next(new Error("category not found",{cause:404}));     
     }
     const checkSubCategory=await SubCategoryModel.findById(subCategoryId);
     if(!checkSubCategory){
-        return res.status(404).json({message:'sub category not found'});
+        return next(new Error("sub category not found",{cause:404}));      
     }
    
      req.body.finalPrice=price - (price*(discount||0)/100);
@@ -38,12 +38,7 @@ export const createProduct=async(req,res)=>{
     req.body.updatedBy=req.user._id;
     const product=await ProductModel.create(req.body);
     if (!product) {
-        return res.status(400).json({message:'error while creating product'});
+        return next(new Error("error while creating product",{cause:400}));      
     }
-    return res.status(201).json({message:'success',product});
-    } catch (error) {
-        return console.log(error.stack);
-
-    }
-  
+    return res.status(201).json({message:'success',product}); 
 }
