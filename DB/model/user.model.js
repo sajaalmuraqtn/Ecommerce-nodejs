@@ -47,6 +47,9 @@ const UserSchema=new Schema({
     sendCode:{
         type:String,
         default:null
+    },
+    changePasswordTime:{
+        type:Date
     }
 
 },{

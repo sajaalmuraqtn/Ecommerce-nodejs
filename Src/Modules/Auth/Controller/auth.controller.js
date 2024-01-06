@@ -77,6 +77,7 @@ export const forgotPassword = async (req, res,next) => {
     }
     user.password=await bcrypt.hashSync(password,parseInt(process.env.SALTROUND));
     user.sendCode=null;
+    user.changePasswordTime=Date.now();
     user.save();
     return res.status(200).json({ message: 'success', user})
 }
