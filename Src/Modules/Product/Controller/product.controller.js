@@ -3,13 +3,14 @@ import CategoryModel from "../../../../DB/model/category.model.js";
 import SubCategoryModel from "../../../../DB/model/subcategory.model.js";
 import cloudinary from "../../../Services/cloudinary.js";
 import ProductModel from "../../../../DB/model/product.model.js";
+import { asyncHandler } from "../../../Services/errorHandling.js";
 
 export const getProduct=async(req,res,next)=>{
     const products=await ProductModel.find();
     return res.status(201).json({message:'success',products});
 }
 
-export const createProduct=async(req,res,next)=>{
+export const createProduct=asyncHandler( async(req,res,next)=>{
  
     const {price,discount,categoryId,subCategoryId,description}=req.body;
     const name =req.body.name.toLowerCase(); 
@@ -40,4 +41,4 @@ export const createProduct=async(req,res,next)=>{
         return next(new Error("error while creating product",{cause:400}));      
     }
     return res.status(201).json({message:'success',product}); 
-}
+})
