@@ -10,6 +10,12 @@ const ProductSchema=new Schema({
     slug:{
         type:String,
         require:true,
+    },stock:{
+        type:String,
+        default:1 
+    },price:{
+        type:Number,
+        require:true
     },
     description:{
         type:String,
