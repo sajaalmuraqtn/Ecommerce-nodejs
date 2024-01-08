@@ -100,7 +100,7 @@ export const signIn = async (req, res,next) => {
     const token = await jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGINSECRET,
         // {expiresIn:'5m'}
     );
-    const refreshToken = await jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGINSECRET, { expiresIn: '10m' });
+    const refreshToken = await jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGINSECRET, { expiresIn:60*60*24*30 });
 
     return res.status(201).json({ message: 'success', token, refreshToken })
 }
