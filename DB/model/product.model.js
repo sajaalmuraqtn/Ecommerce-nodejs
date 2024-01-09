@@ -3,23 +3,23 @@ import mongoose, { Schema, Types, model } from "mongoose";
 const ProductSchema=new Schema({
     name:{
         type:String,
-        required:true,
+        requiredd:true,
         unique:true,
         trim:true
     },
     slug:{
         type:String,
-        require:true,
+        required:true,
     },stock:{
         type:String,
         default:1 
     },price:{
         type:Number,
-        require:true
+        required:true
     },
     description:{
         type:String,
-        require:true
+        required:true
     },
     mainImage:{
         type:Object,
@@ -49,16 +49,16 @@ const ProductSchema=new Schema({
         default:'Active'
     },
     categoryId:{
-        type:Types.ObjectId,ref:'Category', require:true
+        type:Types.ObjectId,ref:'Category', required:true
     }
     ,    subCategoryId:{
-        type:Types.ObjectId,ref:'SubCategory',require:true 
+        type:Types.ObjectId,ref:'SubCategory',required:true 
     },
     createdBy:{
-        type:Types.ObjectId,ref:'User',require:true
+        type:Types.ObjectId,ref:'User',required:true
     },
     updatedBy:{
-        type:Types.ObjectId,ref:'User',require:true
+        type:Types.ObjectId,ref:'User',required:true
     }
 
 },{

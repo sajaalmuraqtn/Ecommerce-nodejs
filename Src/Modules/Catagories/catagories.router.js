@@ -11,7 +11,7 @@ import { validation } from "../../Middleware/validation.js";
 const router=Router();
 
 router.use('/:id/subCatagories',SubCatagoriesRouter);
-router.get('/',auth(Object.values(roles)),asyncHandler(CatagoriesController.getCatagories));
+router.get('/',asyncHandler(CatagoriesController.getCatagories));
 router.get('/active',asyncHandler(CatagoriesController.getActiveCategory));
 router.get('/:id',validation(validators.getSpecificCategory),asyncHandler(CatagoriesController.getSpecificCategory));
 router.post('/create',auth(endPoint.create),fileUpload(fileValidation.image).single('image'),validation(validators.createCategory),asyncHandler(CatagoriesController.createCategory))

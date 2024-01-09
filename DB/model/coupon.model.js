@@ -3,11 +3,11 @@ import mongoose, { Schema, Types, model } from "mongoose";
 const CouponSchema=new Schema({
     name:{
         type:String,
-        require:true,
+        required:true,
         unique:true
     },
     amount:{
-        type:Number,require:true
+        type:Number,required :true
     },
     usedBy:[
         {
@@ -19,7 +19,7 @@ const CouponSchema=new Schema({
         default:false
     }
     ,
-    expiredDate:Date,
+    expiredDate:{type:Date,required:true},
     createdBy:{
         type:Types.ObjectId,ref:'User'
     },

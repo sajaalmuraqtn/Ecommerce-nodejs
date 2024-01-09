@@ -3,24 +3,24 @@ import multer from "multer";
 
 const OrderSchema=new Schema({
     userId:{
-        type:Types.ObjectId,ref:'User',require:true
+        type:Types.ObjectId,ref:'User',required:true
     },products:[{
-        productId:{type:Types.ObjectId,ref:'Product',require:true},
-        quantity:{type:Number,default:1,require:true},
-        unitPrice:{type:Number,require:true},
-        finalPrice:{}
+        productId:{type:Types.ObjectId,ref:'Product',required:true},
+        quantity:{type:Number,default:1,required:true},
+        unitPrice:{type:Number,required:true},
+        finalPrice:{type:Number,required:true}
     }],
     finalPrice:{
         type: Number,
-        require:true
+        required:true
      },
      address:{
         type:String,
-        require:true
+        required:true
      },
      phoneNumber:{
         type:String,
-        require:true
+        required:true
      },
     couponId:{
         type:Types.ObjectId,ref:'Coupon'
@@ -39,10 +39,10 @@ const OrderSchema=new Schema({
     note:String
     ,
     createdBy:{
-        type:Types.ObjectId,ref:'User',require:true
+        type:Types.ObjectId,ref:'User',required:true
     },
     updatedBy:{
-        type:Types.ObjectId,ref:'User',require:true
+        type:Types.ObjectId,ref:'User',required:true
     }
 
 },{

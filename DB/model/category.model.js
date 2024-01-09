@@ -3,12 +3,12 @@ import mongoose, { Schema, Types, model } from "mongoose";
 const CategorySchema=new Schema({
     name:{
         type:String,
-        require:true,
+        required:true,
         unique:true
     },
     slug:{
         type:String,
-        require:true,
+        required:true,
     },
     image:{
         type:Object
@@ -19,10 +19,10 @@ const CategorySchema=new Schema({
         default:'Active'
     },
     createdBy:{
-        type:Types.ObjectId,ref:'User',require:true
+        type:Types.ObjectId,ref:'User',required:true
     },
     updatedBy:{
-        type:Types.ObjectId,ref:'User',require:true
+        type:Types.ObjectId,ref:'User',required:true
     }
 
 },{

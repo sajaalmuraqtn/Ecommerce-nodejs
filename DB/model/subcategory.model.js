@@ -3,12 +3,12 @@ import mongoose, { Schema, Types, model } from "mongoose";
 const SubCategorySchema=new Schema({
     name:{
         type:String,
-        require:true,
+        required:true,
         unique:true
     },
     slug:{
         type:String,
-        require:true,
+        required:true,
     },
     image:{
         type:Object

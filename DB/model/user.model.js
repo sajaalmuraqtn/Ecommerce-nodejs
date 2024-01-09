@@ -3,13 +3,13 @@ import mongoose, { Schema, model } from "mongoose";
 const UserSchema=new Schema({
     userName:{
         type:String,
-        require:true,
+        required:true,
         min:4,
         max:20
     },
     email:{
         type:String,
-        require:true,
+        required:true,
         unique:true
     },
     confirmEmail:{
@@ -18,7 +18,7 @@ const UserSchema=new Schema({
     },
     password:{
         type:String,
-        require:true
+        required:true
     },
     address:{
         type:String
@@ -28,7 +28,7 @@ const UserSchema=new Schema({
     },
     image:{
         type:Object,
-        require:true,
+        required:true,
     }
     ,
     gender:{
