@@ -40,10 +40,10 @@ const OrderSchema=new Schema({
     note:String
     ,
     createdBy:{
-        type:Types.ObjectId,ref:'User',required:true
+        type:Types.ObjectId,ref:'User' 
     },
     updatedBy:{
-        type:Types.ObjectId,ref:'User',required:true
+        type:Types.ObjectId,ref:'User' 
     }
 
 },{

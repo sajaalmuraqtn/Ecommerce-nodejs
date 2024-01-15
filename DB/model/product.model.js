@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types, model } from "mongoose";
+ import mongoose, { Schema, Types, model } from "mongoose";
 
 const ProductSchema=new Schema({
     name:{
@@ -11,7 +11,7 @@ const ProductSchema=new Schema({
         type:String,
         required:true,
     },stock:{
-        type:String,
+        type:Number,
         default:1 
     },price:{
         type:Number,
@@ -47,6 +47,10 @@ const ProductSchema=new Schema({
         type:String,
         enum:['Active','Inactive'],
         default:'Active'
+    },
+    isDeleted:{
+        type:Boolean,
+        default:false
     },
     categoryId:{
         type:Types.ObjectId,ref:'Category', required:true

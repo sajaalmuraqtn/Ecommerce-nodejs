@@ -18,6 +18,10 @@ const SubCategorySchema=new Schema({
         enum:['Active','Inactive'],
         default:'Active'
     },
+    isDeleted:{
+        type:Boolean,
+        default:false
+    },
     categoryId:{
         type: Types.ObjectId,ref:'Category'
         

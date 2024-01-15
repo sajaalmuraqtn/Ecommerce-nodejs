@@ -23,8 +23,8 @@ const UserSchema=new Schema({
     address:{
         type:String
     },
-    phone:{
-        type:String
+    phoneNumber:{
+        type:String,
     },
     image:{
         type:Object,

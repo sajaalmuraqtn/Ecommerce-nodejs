@@ -18,6 +18,10 @@ const CategorySchema=new Schema({
         enum:['Active','Inactive'],
         default:'Active'
     },
+    isDeleted:{
+        type:Boolean,
+        default:false
+    },
     createdBy:{
         type:Types.ObjectId,ref:'User',required:true
     },
