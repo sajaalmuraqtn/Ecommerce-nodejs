@@ -2,9 +2,11 @@ import slugify from "slugify";
 
 import CategoryModel from "../../../../DB/model/category.model.js";
 import cloudinary from "../../../Services/cloudinary.js";
+import { pagination } from "../../../Services/pagination.js";
 
 export const getCatagories=async(req,res,next)=>{
-    const categories=await CategoryModel.find().populate('subCategories');
+    const {limit ,skip}=pagination(req.query.page,req.query.limit);
+    const categories=await CategoryModel.find().limit(limit).skip(skip).populate('subCategories');
     return res.status(201).json({message:'success',categories})
 }
 
@@ -15,12 +17,13 @@ export const getSpecificCategory=async(req,res,next)=>{
 }
 
 export const getActiveCategory=async(req,res,next)=>{
-try {
- const activeCatagories=await CategoryModel.find({status:'Active'}); 
-    return res.status(200).json({message:'success',activeCatagories});
-} catch (error) {
-    return console.log(error.stack);
-}  
+    // const page=req.query.page || 1; //the number of page
+    // const limit= req.query.limit ||3; //the number of category in one page
+     const {limit ,skip}=pagination(req.query.page,req.query.limit)
+    
+    const activeCatagories=await CategoryModel.find({status:'Active'}).limit(limit).skip(skip); 
+    return res.status(200).json({message:'success',count:activeCatagories.length,activeCatagories});
+ 
 }
 
 export const createCategory=async(req,res,next)=>{
