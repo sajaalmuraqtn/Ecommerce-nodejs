@@ -4,4 +4,5 @@ export const endPoint={
     create:[roles.Admin],
     getall:[roles.Admin],
     update:[roles.Admin],
+    delete:[roles.Admin],
 }

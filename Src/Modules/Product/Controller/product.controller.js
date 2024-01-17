@@ -46,5 +46,4 @@ export const createProduct=asyncHandler( async(req,res,next)=>{
 export const getProductWithCategory=async(req,res,next)=>{
     const products=await ProductModel.find({categoryId:req.params.categoryId});
     return res.status(201).json({message:'success',products});
-
 }
