@@ -4,9 +4,11 @@ import SubCategoryModel from "../../../../DB/model/subcategory.model.js";
 import cloudinary from "../../../Services/cloudinary.js";
 import ProductModel from "../../../../DB/model/product.model.js";
 import { asyncHandler } from "../../../Services/errorHandling.js";
+import { pagination } from "../../../Services/pagination.js";
 
 export const getProduct=async(req,res,next)=>{
-    const products=await ProductModel.find();
+    const { limit, skip } = pagination(req.query.page, req.query.limit);
+    const products=await ProductModel.find().limit(limit).skip(skip);
     return res.status(201).json({message:'success',products});
 }
 
