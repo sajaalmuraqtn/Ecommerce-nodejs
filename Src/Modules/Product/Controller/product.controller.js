@@ -10,19 +10,32 @@ export const getProduct = async (req, res, next) => {
 
     const { limit, skip } = pagination(req.query.page, req.query.limit);
 
-    let queryObj = {...req.query};
-    const execQuery = ['page','limit','skip','sort'];
-    execQuery.map((ele)=>{
+    let queryObj = { ...req.query };
+    const execQuery = ['page', 'limit', 'skip', 'sort', 'search','fields'];
+    execQuery.map((ele) => {
         delete queryObj[ele];
     })
-    queryObj=JSON.stringify(queryObj);
-    queryObj=queryObj.replace(/\b(gt|gte|lt|lte|in|nin|eq|neq)\b/g,match=>`$${match}`);
-    queryObj=JSON.parse(queryObj);
- 
-    const mongooseQuery= await ProductModel.find(queryObj).limit(limit).skip(skip).sort(req.query.sort?.replaceAll(',',' '));
-    const products =await mongooseQuery ;
-    const count=await ProductModel.estimatedDocumentCount();
-    return res.status(201).json({ message: 'success',page:products.length,total:count, products });
+    queryObj = JSON.stringify(queryObj);
+    queryObj = queryObj.replace(/\b(gt|gte|lt|lte|in|nin|eq|neq)\b/g, match => `$${match}`);
+    queryObj = JSON.parse(queryObj);
+
+    const mongooseQuery = ProductModel.find(queryObj).limit(limit).skip(skip);
+    if (req.query.search) {
+        mongooseQuery.find({
+            $or: [
+                { name: { $regex: req.query.search, $options: 'i' } },
+                { description: { $regex: req.query.search, $options: 'i' } }
+            ]
+        })
+    }
+    if (req.query.fields) {
+        mongooseQuery.select(req.query.fields?.replaceAll(',', ' '))
+    }
+
+    const products = await mongooseQuery.sort(req.query.sort?.replaceAll(',', ' '));
+    const count = await ProductModel.estimatedDocumentCount();
+    return res.status(201).json({ message: 'success', page: products.length, total: count, products });
+
 }
 
 export const createProduct = asyncHandler(async (req, res, next) => {
