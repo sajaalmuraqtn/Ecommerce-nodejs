@@ -19,7 +19,7 @@ export const getProduct = async (req, res, next) => {
     queryObj=queryObj.replace(/\b(gt|gte|lt|lte|in|nin|eq|neq)\b/g,match=>`$${match}`);
     queryObj=JSON.parse(queryObj);
  
-    const mongooseQuery= await ProductModel.find(queryObj).limit(limit).skip(skip);
+    const mongooseQuery= await ProductModel.find(queryObj).limit(limit).skip(skip).sort(req.query.sort?.replaceAll(',',' '));
     const products =await mongooseQuery ;
     const count=await ProductModel.estimatedDocumentCount();
     return res.status(201).json({ message: 'success',page:products.length,total:count, products });
