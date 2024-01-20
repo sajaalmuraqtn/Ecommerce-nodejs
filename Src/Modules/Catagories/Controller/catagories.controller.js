@@ -4,6 +4,7 @@ import CategoryModel from "../../../../DB/model/category.model.js";
 import cloudinary from "../../../Services/cloudinary.js";
 import { pagination } from "../../../Services/pagination.js";
 import ProductModel from "../../../../DB/model/product.model.js";
+import SubCategoryModel from "../../../../DB/model/subcategory.model.js";
 
 export const getCatagories = async (req, res, next) => {
     const { limit, skip } = pagination(req.query.page, req.query.limit);
@@ -87,6 +88,8 @@ export const deleteCategory = async (req, res, next) => {
         return next(new Error(` invalid id ${id} `, { cause: 400 }));
     }
     await ProductModel.deleteMany({categoryId});
+    await SubCategoryModel.deleteMany({categoryId});
+
 
     return res.status(200).json({ message: 'success', category });
 

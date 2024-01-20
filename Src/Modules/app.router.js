@@ -7,6 +7,7 @@ import SubCatagoriesRouter from './SubCatagories/subcatagories.router.js'
 import CouponRouter from './Coupon/coupon.router.js'
 import CartRouter from './Cart/cart.router.js'
 import OrderRouter from './Order/order.router.js'
+import UserRouter from './User/user.router.js'
 
 import ConnectDB from '../../DB/connection.js';
 
@@ -19,6 +20,7 @@ app.get('/',(req,res)=>{
 });
 ConnectDB();
 app.use('/auth',AuthRouter);
+app.use('/user',UserRouter);
 app.use('/products',ProductRouter);
 app.use('/catagories',CatagoriesRouter);
 app.use('/subCatagories',SubCatagoriesRouter);
