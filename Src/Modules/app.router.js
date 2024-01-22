@@ -11,26 +11,26 @@ import UserRouter from './User/user.router.js'
 
 import ConnectDB from '../../DB/connection.js';
 
-const initApp=(app,express)=>{
+const initApp = (app, express) => {
+    app.use(express.json());
 
-app.use(express.json());
-
-app.get('/',(req,res)=>{
-    return res.json('welcome...')
-});
-ConnectDB();
-app.use('/auth',AuthRouter);
-app.use('/user',UserRouter);
-app.use('/products',ProductRouter);
-app.use('/catagories',CatagoriesRouter);
-app.use('/subCatagories',SubCatagoriesRouter);
-app.use('/coupon',CouponRouter);
-app.use('/cart',CartRouter);
-app.use('/order',OrderRouter);
-app.get('*',(req,res)=>{
-    return res.json({message:'page not found'})
-});
-app.use(globalErrorHandler);
+    app.get('/', (req, res) => {
+        return res.json('welcome...')
+    });
+    ConnectDB();
+    app.use('/userPdf',express.static('./'));
+    app.use('/auth', AuthRouter);
+    app.use('/user', UserRouter);
+    app.use('/products', ProductRouter);
+    app.use('/catagories', CatagoriesRouter);
+    app.use('/subCatagories', SubCatagoriesRouter);
+    app.use('/coupon', CouponRouter);
+    app.use('/cart', CartRouter);
+    app.use('/order', OrderRouter);
+    app.get('*', (req, res) => {
+        return res.json({ message: 'page not found' })
+    });
+    app.use(globalErrorHandler);
 }
 
 

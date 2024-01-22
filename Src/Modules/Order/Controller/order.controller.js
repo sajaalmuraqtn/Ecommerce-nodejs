@@ -101,7 +101,6 @@ export const getOrders = async (req, res, next) => {
 }
 
 export const changeStatus = async (req, res, next) => {
-
     const orderId = req.params.orderId;
     const order = await OrderModel.findById(orderId);
     if (!order) {
@@ -110,16 +109,16 @@ export const changeStatus = async (req, res, next) => {
     if (order.status == 'cancelled' || order.status == 'delivered') {
         return next(new Error(` can not cancelled this order `, { cause: 404 }));
     }
-    const newOrder = await OrderModel.findByIdAndUpdate(orderId,{status:req.body.status,updatedBy:req.user._id},{new:true});
-    if (req.body.status=='cancelled') {
+    const newOrder = await OrderModel.findByIdAndUpdate(orderId, { status: req.body.status, updatedBy: req.user._id }, { new: true });
+    if (req.body.status == 'cancelled') {
         for (const product of order.products) {
             await ProductModel.updateOne({ _id: product.productId }, { $inc: { stock: product.quantity } })
         }
         if (order.couponName) {
-            await CouponModel.updateOne({ name: order.couponName }, { $pull:{ usedBy:order.userId } })
+            await CouponModel.updateOne({ name: order.couponName }, { $pull: { usedBy: order.userId } })
         }
     }
-    return res.status(201).json({ message:"success",order:newOrder});
+    return res.status(201).json({ message: "success", order: newOrder });
 }
 
 export const cancelOrder = async (req, res, next) => {
@@ -133,14 +132,12 @@ export const cancelOrder = async (req, res, next) => {
     }
     req.body.status = 'cancelled';
     req.body.updatedBy = req.user._id;
-
     for (const product of order.products) {
         await ProductModel.updateOne({ _id: product.productId }, { $inc: { stock: product.quantity } })
     }
     if (order.couponName) {
         await CouponModel.updateOne({ name: order.couponName }, { $pull: { usedBy: req.user._id } })
     }
-    const newOrder = await OrderModel.findByIdAndUpdate(orderId, req.body,{new:true});
-
+    const newOrder = await OrderModel.findByIdAndUpdate(orderId, req.body, { new: true });
     return res.status(201).json({ message: "success", newOrder });
 } 
