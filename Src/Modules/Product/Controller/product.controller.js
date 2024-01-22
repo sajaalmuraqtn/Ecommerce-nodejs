@@ -75,3 +75,9 @@ export const getProductWithCategory = async (req, res, next) => {
     const products = await ProductModel.find({ categoryId: req.params.categoryId });
     return res.status(201).json({ message: 'success', products });
 }
+export const getSpecificProduct = async (req, res, next) => {
+    const product = await ProductModel.findById(req.params.productId).populate('reviews');
+    return res.status(201).json({ message: 'success', product});
+}
+
+ 

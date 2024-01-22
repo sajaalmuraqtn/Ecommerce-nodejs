@@ -5,6 +5,7 @@ const OrderSchema=new Schema({
     userId:{
         type:Types.ObjectId,ref:'User',required:true
     },products:[{
+        name:{type:String,required:true},
         productId:{type:Types.ObjectId,ref:'Product',required:true},
         quantity:{type:Number,default:1,required:true},
         unitPrice:{type:Number,required:true},

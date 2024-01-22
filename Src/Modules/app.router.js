@@ -8,6 +8,7 @@ import CouponRouter from './Coupon/coupon.router.js'
 import CartRouter from './Cart/cart.router.js'
 import OrderRouter from './Order/order.router.js'
 import UserRouter from './User/user.router.js'
+import ReviewRouter from './Review/review.router.js'
 
 import ConnectDB from '../../DB/connection.js';
 
@@ -27,6 +28,7 @@ const initApp = (app, express) => {
     app.use('/coupon', CouponRouter);
     app.use('/cart', CartRouter);
     app.use('/order', OrderRouter);
+    app.use('/review', ReviewRouter);
     app.get('*', (req, res) => {
         return res.json({ message: 'page not found' })
     });
