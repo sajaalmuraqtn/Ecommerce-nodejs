@@ -15,13 +15,11 @@ export const createOrder = async (req, res, next) => {
     if (!cart) {
         return next(new Error("cart is Empty", { cause: 400 }))
     }
-    console.log(cart.products.length);
-    if (cart.products.length == 0) {
+     if (cart.products.length == 0) {
         return next(new Error("cart is Empty", { cause: 400 }))
     }
     req.body.products = cart.products;
-    console.log(req.body.products);
-
+ 
     if (couponName) {
         const coupon = await CouponModel.findOne({ name: couponName.toLowerCase() });
         if (!coupon) {
@@ -47,8 +45,7 @@ export const createOrder = async (req, res, next) => {
             _id: product.productId,
             stock: { $gte: product.quantity }
         })
-        console.log(checkProduct);
-        if (!checkProduct) {
+         if (!checkProduct) {
             return next(new Error(" product quantity not available", { cause: 400 }));
         }
         product = product.toObject();
